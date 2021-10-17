@@ -5,4 +5,10 @@
     display: flex;
     flex-wrap: wrap;
 }
-
+.grid div{
+    width: 125px;
+    height: 125px;
+    background-color: rgb(87, 184, 223);
+    text-align: center;
+    font-size: 30px;
+}
