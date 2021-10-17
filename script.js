@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () =>{
 
     }
 
-    function combineSameElements() {
+    function combineSameElementsRow() {
         for (let i =0; i<15; i++) {
             if(all_squares[i].innerHTML === all_squares[i+1].innerHTML){
                 let total = parseInt(all_squares[i].innerHTML) + parseInt(all_squares[i+1].innerHTML)
@@ -94,29 +94,104 @@ document.addEventListener("DOMContentLoaded", () =>{
         }
     }
 
-    //assigning keys
-    function  controls(e) {
-        //If pressed key is right arrow
-        if(e.keyCode === 39){
-            keyRight()
-        } else if (e.keyCode === 37) {
-            keyLeft()
-        }
-    }
-
     document.addEventListener('keyup', controls)
 
     function keyRight() {
         swipeRight()
-        combineSameElements()
+        combineSameElementsRow()
         swipeRight()
         generate()
     }
 
     function keyLeft() {
         swipeLeft()
-        combineSameElements()
+        combineSameElementsRow()
         swipeLeft()
         generate()
     }
+
+
+    //Move down
+    function swipeDown() {
+        for (let i = 0; i < width; i ++) {
+            col = []
+            for (let j = 0; j < 4; j++) {
+                col.push(parseInt(all_squares[i+ (width*j)].innerHTML))
+            }
+
+            let filterCol = col.filter(num => num)
+            let missing = 4 - filterCol.length
+            let zeroes = Array(missing).fill(0)
+            let newCol = zeroes.concat(filterCol)
+
+            for (let j = 0; j < 4; j++) {
+                all_squares[i +(width*j)].innerHTML = newCol[j]
+            }
+
+        }
+    }
+
+
+    //Move up
+    function swipeUp() {
+        for (let i = 0; i < width; i++) {
+            col = []
+            for (let j = 0; j < 4; j++) {
+                col.push(parseInt(all_squares[i + (width * j)].innerHTML))
+            }
+
+            let filterCol = col.filter(num => num)
+            let missing = 4 - filterCol.length
+            let zeroes = Array(missing).fill(0)
+            let newCol = filterCol.concat(zeroes)
+
+            for (let j = 0; j < 4; j++) {
+                all_squares[i + (width * j)].innerHTML = newCol[j]
+            }
+
+        }
+
+    }
+
+    function combineSameElementsCol() {
+        for (let i = 0; i < 12; i++) {
+            if (all_squares[i].innerHTML === all_squares[i + width].innerHTML) {
+                let total = parseInt(all_squares[i].innerHTML) + parseInt(all_squares[i + width].innerHTML)
+                all_squares[i].innerHTML = total
+                all_squares[i + width].innerHTML = 0
+            }
+        }
+    }
+
+    function keyDown() {
+        swipeDown()
+        combineSameElementsCol()
+        swipeDown()
+        generate()
+    }
+
+    function keyUp() {
+        swipeUp()
+        combineSameElementsCol()
+        swipeUp()
+        generate()
+
+    }
+
+    //assigning keys
+    function controls(e) {
+        //If pressed key is right arrow
+        if (e.keyCode === 39) {
+            keyRight()
+        } else if (e.keyCode === 37) {
+            keyLeft()
+        } else if(e.keyCode === 38) {
+            keyUp()
+        } else if (e.keyCode === 40) {
+            keyDown()
+        }
+    }
+
+
 })
+
