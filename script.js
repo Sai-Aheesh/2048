@@ -99,6 +99,8 @@ document.addEventListener("DOMContentLoaded", () =>{
         //If pressed key is right arrow
         if(e.keyCode === 39){
             keyRight()
+        } else if (e.keyCode === 37) {
+            keyLeft()
         }
     }
 
@@ -108,6 +110,13 @@ document.addEventListener("DOMContentLoaded", () =>{
         swipeRight()
         combineSameElements()
         swipeRight()
+        generate()
+    }
+
+    function keyLeft() {
+        swipeLeft()
+        combineSameElements()
+        swipeLeft()
         generate()
     }
 })
