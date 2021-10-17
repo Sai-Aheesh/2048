@@ -23,7 +23,12 @@ document.addEventListener("DOMContentLoaded", () =>{
     function generate() {
         let randomNum = Math.floor(Math.random() * all_squares.length)
         if (all_squares[randomNum].innerHTML == 0) {
-            all_squares[randomNum].innerHTML = 2
+            rand = Math.floor(Math.random()*2)
+            if (rand == 0){
+                all_squares[randomNum].innerHTML = 2
+            }
+            else all_squares[randomNum].innerHTML = 4
+
         } else generate()
 
     }
@@ -77,5 +82,32 @@ document.addEventListener("DOMContentLoaded", () =>{
             }
         }
 
+    }
+
+    function combineSameElements() {
+        for (let i =0; i<15; i++) {
+            if(all_squares[i].innerHTML === all_squares[i+1].innerHTML){
+                let total = parseInt(all_squares[i].innerHTML) + parseInt(all_squares[i+1].innerHTML)
+                all_squares[i].innerHTML = total
+                all_squares[i+1].innerHTML = 0
+            }
+        }
+    }
+
+    //assigning keys
+    function  controls(e) {
+        //If pressed key is right arrow
+        if(e.keyCode === 39){
+            keyRight()
+        }
+    }
+
+    document.addEventListener('keyup', controls)
+
+    function keyRight() {
+        swipeRight()
+        combineSameElements()
+        swipeRight()
+        generate()
     }
 })
