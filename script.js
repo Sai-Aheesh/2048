@@ -31,18 +31,19 @@ document.addEventListener("DOMContentLoaded", () =>{
     //Move right
     function swipeRight() {
         for (let i =0; i<width*width; i++) {
-            if (i%4 === 0) {  //checking if it belongs to first column
+            //checking if it belongs to first column
+            if (i%4 === 0) {
                 row = []
+                // Creating an array row and pushing all values of respective row into them
                 for (let j = 0; j<4; j++){
                     row.push(parseInt(all_squares[i+j].innerHTML))
                 }
-                console.log(row)
 
                 let filterRow = row.filter(num => num)
                 let missing = 4 - filterRow.length
+                // Based on the number of missing zeroes, we add them on the left of filterRow
                 let zeroes = Array(missing).fill(0)
                 let newRow = zeroes.concat(filterRow)
-                console.log(newRow)
 
                 for (let j = 0; j < 4; j++) {
                     all_squares[i+j].innerHTML = newRow[j]
@@ -51,5 +52,30 @@ document.addEventListener("DOMContentLoaded", () =>{
         }
 
     }
-    swipeRight()
+
+    //Move left
+    function swipeLeft() {
+        for (let i = 0; i < width * width; i++) {
+            //checking if it belongs to first column
+            if (i % 4 === 0) {
+                row = []
+                // Creating an array row and pushing all values of respective row into them
+                for (let j = 0; j < 4; j++) {
+                    row.push(parseInt(all_squares[i + j].innerHTML))
+                }
+
+                //filters the row from all zeroes and extracts only non-zero numbers
+                let filterRow = row.filter(num => num)
+                let missing = 4 - filterRow.length
+                // Based on the number of missing zeroes, we add them on the right of filterRow
+                let zeroes = Array(missing).fill(0)
+                let newRow = filterRow.concat(zeroes)
+
+                for (let j = 0; j < 4; j++) {
+                    all_squares[i + j].innerHTML = newRow[j]
+                }
+            }
+        }
+
+    }
 })
