@@ -1,11 +1,10 @@
-console.log("Hello world!")
-
 document.addEventListener("DOMContentLoaded", () =>{
     const grid = document.querySelector('.grid')
     const score = document.getElementById('score-num')
     const result = document.getElementById('result')
     const width = 4
-    all_squares = []
+    let all_squares = []
+    let scoreNum = 0
 
     function board() {
         for (let i=0; i<width*width; i++) {
@@ -27,7 +26,8 @@ document.addEventListener("DOMContentLoaded", () =>{
             if (rand == 0){
                 all_squares[randomNum].innerHTML = 2
             }
-            else all_squares[randomNum].innerHTML = 4
+            else all_squares[randomNum].innerHTML = width
+            checkforLoss()
 
         } else generate()
 
@@ -37,20 +37,20 @@ document.addEventListener("DOMContentLoaded", () =>{
     function swipeRight() {
         for (let i =0; i<width*width; i++) {
             //checking if it belongs to first column
-            if (i%4 === 0) {
+            if (i%width === 0) {
                 row = []
                 // Creating an array row and pushing all values of respective row into them
-                for (let j = 0; j<4; j++){
+                for (let j = 0; j<width; j++){
                     row.push(parseInt(all_squares[i+j].innerHTML))
                 }
 
                 let filterRow = row.filter(num => num)
-                let missing = 4 - filterRow.length
+                let missing = width - filterRow.length
                 // Based on the number of missing zeroes, we add them on the left of filterRow
                 let zeroes = Array(missing).fill(0)
                 let newRow = zeroes.concat(filterRow)
 
-                for (let j = 0; j < 4; j++) {
+                for (let j = 0; j < width; j++) {
                     all_squares[i+j].innerHTML = newRow[j]
                 }
             }
@@ -62,21 +62,21 @@ document.addEventListener("DOMContentLoaded", () =>{
     function swipeLeft() {
         for (let i = 0; i < width * width; i++) {
             //checking if it belongs to first column
-            if (i % 4 === 0) {
+            if (i % width === 0) {
                 row = []
                 // Creating an array row and pushing all values of respective row into them
-                for (let j = 0; j < 4; j++) {
+                for (let j = 0; j < width; j++) {
                     row.push(parseInt(all_squares[i + j].innerHTML))
                 }
 
                 //filters the row from all zeroes and extracts only non-zero numbers
                 let filterRow = row.filter(num => num)
-                let missing = 4 - filterRow.length
+                let missing = width - filterRow.length
                 // Based on the number of missing zeroes, we add them on the right of filterRow
                 let zeroes = Array(missing).fill(0)
                 let newRow = filterRow.concat(zeroes)
 
-                for (let j = 0; j < 4; j++) {
+                for (let j = 0; j < width; j++) {
                     all_squares[i + j].innerHTML = newRow[j]
                 }
             }
@@ -85,13 +85,16 @@ document.addEventListener("DOMContentLoaded", () =>{
     }
 
     function combineSameElementsRow() {
-        for (let i =0; i<15; i++) {
+        for (let i =0; i<width-1; i++) {
             if(all_squares[i].innerHTML === all_squares[i+1].innerHTML){
                 let total = parseInt(all_squares[i].innerHTML) + parseInt(all_squares[i+1].innerHTML)
                 all_squares[i].innerHTML = total
                 all_squares[i+1].innerHTML = 0
+                scoreNum += total
+                score.innerHTML = scoreNum
             }
         }
+        checkfor2048()
     }
 
     document.addEventListener('keyup', controls)
@@ -115,16 +118,16 @@ document.addEventListener("DOMContentLoaded", () =>{
     function swipeDown() {
         for (let i = 0; i < width; i ++) {
             col = []
-            for (let j = 0; j < 4; j++) {
+            for (let j = 0; j < width; j++) {
                 col.push(parseInt(all_squares[i+ (width*j)].innerHTML))
             }
 
             let filterCol = col.filter(num => num)
-            let missing = 4 - filterCol.length
+            let missing = width - filterCol.length
             let zeroes = Array(missing).fill(0)
             let newCol = zeroes.concat(filterCol)
 
-            for (let j = 0; j < 4; j++) {
+            for (let j = 0; j < width; j++) {
                 all_squares[i +(width*j)].innerHTML = newCol[j]
             }
 
@@ -136,16 +139,16 @@ document.addEventListener("DOMContentLoaded", () =>{
     function swipeUp() {
         for (let i = 0; i < width; i++) {
             col = []
-            for (let j = 0; j < 4; j++) {
+            for (let j = 0; j < width; j++) {
                 col.push(parseInt(all_squares[i + (width * j)].innerHTML))
             }
 
             let filterCol = col.filter(num => num)
-            let missing = 4 - filterCol.length
+            let missing = width - filterCol.length
             let zeroes = Array(missing).fill(0)
             let newCol = filterCol.concat(zeroes)
 
-            for (let j = 0; j < 4; j++) {
+            for (let j = 0; j < width; j++) {
                 all_squares[i + (width * j)].innerHTML = newCol[j]
             }
 
@@ -154,13 +157,16 @@ document.addEventListener("DOMContentLoaded", () =>{
     }
 
     function combineSameElementsCol() {
-        for (let i = 0; i < 12; i++) {
+        for (let i = 0; i < width*(width-1); i++) {
             if (all_squares[i].innerHTML === all_squares[i + width].innerHTML) {
                 let total = parseInt(all_squares[i].innerHTML) + parseInt(all_squares[i + width].innerHTML)
                 all_squares[i].innerHTML = total
                 all_squares[i + width].innerHTML = 0
+                scoreNum += total
+                score.innerHTML = scoreNum
             }
         }
+        checkfor2048()
     }
 
     function keyDown() {
@@ -193,5 +199,31 @@ document.addEventListener("DOMContentLoaded", () =>{
     }
 
 
+
+    // Check for 20width8 in the squares
+    function checkfor2048() {
+        for (let i =0; i < all_squares.length; i++) {
+            if (all_squares[i].innerHTML == 2048){
+                result.innerHTML = 'You Win!'
+                document.removeEventListener('keyup', controls)
+            }
+        }
+
+    }
+
+    //Check if you lost
+    function checkforLoss() {
+        let count = 0
+        for (let i = 0; i<all_squares.length; i++){
+            if (all_squares[i].innerHTML == 0) {
+                count++
+            }
+        }
+
+        if (count === 0) {
+            result.innerHTML = 'You Lose'
+            document.removeEventListener('keyup', controls)
+        }
+    }
 })
 
