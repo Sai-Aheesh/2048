@@ -1,14 +1,46 @@
+body{
+    background-color: rgb(129, 129, 129);
+}
+
+h1{
+    position: relative;
+    left: 45%;
+    font-size: 40px;
+    background-color: cornflowerblue;
+    display: inline-block;
+    padding: 15px;
+    border-radius: 15px;
+}
+
 .grid{
-    width: 500px;
+    margin: auto;
+    width: 550px;
     height: 500px;
-    background-color: aqua;
     display: flex;
     flex-wrap: wrap;
 }
 .grid div{
     width: 125px;
-    height: 125px;
+    height: 85px;
     background-color: rgb(87, 184, 223);
     text-align: center;
     font-size: 30px;
+    padding: 40px 0 0 0;
+    border-style: solid;
+    border-radius: 15px;
+    border-color: rgb(171, 49, 228);
+}
+
+.score-container{
+    font-size: 25px;
+    display: inline-block;
+    position: relative;
+    background-color: rgb(49, 219, 163);
+    left: 100px;
+    top: 200px;
+    border-radius: 14px;
+}
+
+.scoredetails{
+    margin: 20px;
 }

@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () =>{
                 all_squares[randomNum].innerHTML = 2
             }
             else all_squares[randomNum].innerHTML = width
-            checkforLoss()
+
 
         } else generate()
 
@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () =>{
 
 
 
-    // Check for 20width8 in the squares
+    // Check for 2048 in the squares
     function checkfor2048() {
         for (let i =0; i < all_squares.length; i++) {
             if (all_squares[i].innerHTML == 2048){
