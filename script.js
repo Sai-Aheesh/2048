@@ -85,8 +85,9 @@ document.addEventListener("DOMContentLoaded", () =>{
     }
 
     function combineSameElementsRow() {
-        for (let i =0; i<width-1; i++) {
-            if(all_squares[i].innerHTML === all_squares[i+1].innerHTML){
+        for (let i =0; i<width*width-1; i++) {
+            if(i%width==width-1) {continue}
+            if(all_squares[i].innerHTML == all_squares[i+1].innerHTML){
                 let total = parseInt(all_squares[i].innerHTML) + parseInt(all_squares[i+1].innerHTML)
                 all_squares[i].innerHTML = total
                 all_squares[i+1].innerHTML = 0
